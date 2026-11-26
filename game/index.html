@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ridge Runner — Alpine Courier</title>
+<style>
+  html, body { margin: 0; padding: 0; background: #0a1220; height: 100%; overflow: hidden; }
+  #wrap { position: fixed; inset: 0; display: flex; align-items: center; justify-content: center; }
+  canvas { display: block; background: #87a8c8; box-shadow: 0 0 60px rgba(0,0,0,.6); }
+  #err { position: fixed; left: 8px; bottom: 8px; color: #ff8080; font: 12px monospace;
+         white-space: pre-wrap; max-width: 90vw; z-index: 9; display: none; }
+</style>
+</head>
+<body>
+<div id="wrap"><canvas id="game" width="1280" height="800"></canvas></div>
+<div id="err"></div>
+<script>
+  window.__gameErrors = [];
+  window.addEventListener('error', function (e) {
+    window.__gameErrors.push(String(e.message || e.error));
+    var d = document.getElementById('err');
+    d.style.display = 'block';
+    d.textContent = window.__gameErrors.join('\n');
+  });
+</script>
+<script type="module" src="./src/main.js"></script>
+</body>
+</html>
