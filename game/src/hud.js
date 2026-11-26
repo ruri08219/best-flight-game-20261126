@@ -24,6 +24,19 @@ function text(ctx, s, x, y, size, col, align = 'left', bold = false) {
   ctx.fillText(s, x, y);
 }
 
+// Rounded-rect pill with a centred digital readout, used by both tapes.
+function pill(ctx, x, y, w, h, text, fill, fg) {
+  ctx.fillStyle = fill;
+  ctx.beginPath();
+  ctx.roundRect(x, y, w, h, 5);
+  ctx.fill();
+  ctx.fillStyle = fg;
+  ctx.font = 'bold 14px "Segoe UI", sans-serif';
+  ctx.textAlign = 'center';
+  ctx.textBaseline = 'middle';
+  ctx.fillText(text, x + w / 2, y + h / 2);
+}
+
 function headingLabel(deg) {
   const names = ['N', 'NE', 'E', 'SE', 'S', 'SW', 'W', 'NW'];
   const d = ((Math.round(deg) % 360) + 360) % 360;
@@ -86,15 +99,7 @@ function drawTape(ctx, x, y, w, h, value, step, unit, format, colour) {
   }
   ctx.restore();
   // Centre readout on a bright pill so it reads against the dark panel.
-  ctx.fillStyle = colour;
-  ctx.beginPath();
-  ctx.roundRect(x + 3, cy - 13, w - 6, 26, 5);
-  ctx.fill();
-  ctx.fillStyle = '#08121e';
-  ctx.font = 'bold 14px "Segoe UI", sans-serif';
-  ctx.textAlign = 'center';
-  ctx.textBaseline = 'middle';
-  ctx.fillText(format(value), x + w / 2, cy);
+  pill(ctx, x + 3, cy - 13, w - 6, 26, format(value), colour, '#08121e');
   text(ctx, unit, x + 6, y + h + 12, 11, C.hudCyan, 'left', true);
 }
 
